@@ -10,7 +10,7 @@ const slides = [
   {
     title: '$BDOG COMMUNITY',
     description: 'Join RISINGCOIN community channel',
-    link: 'https://t.me/risingcoin_rsc', 
+    link: '', 
   },
 ];
 

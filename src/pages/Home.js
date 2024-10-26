@@ -154,7 +154,7 @@ useEffect(() => {
       <div className="w-full flex justify-center">
         <div className="w-full flex justify-center">
           <div className="flex flex-col space-y-3 w-full">
-          <TonConnectUIProvider manifestUrl="https://bulldog.online/tonconnect-manifest.json">
+          <TonConnectUIProvider manifestUrl="https://bulldogs.vercel.app/tonconnect-manifest.json">
               <UserProvider>
                 <AnimatePresence mode="wait">
                   <Outlet />
