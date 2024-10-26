@@ -10,8 +10,8 @@ const firebaseConfig = {
   projectId: "bulldogs-f47d1",
   storageBucket: "bulldogs-f47d1.appspot.com",
   messagingSenderId: "31405723079",
-  appId: "1:31405723079:web:662837c03307eb856b5de2",
-  measurementId: "G-KPRWHP3JNX"
+  appId: "1:31405723079:web:298819f708ddd3246b5de2",
+  measurementId: "G-7J8YJY3V80"
 };
 
 //* Initialize Firebase
