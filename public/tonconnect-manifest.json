@@ -1,7 +1,7 @@
 {
-    "url": "https://bulldog.online/", 
-    "name": "RISING COIN",                   
-    "iconUrl": "https://bulldog.online/",          
+    "url": "https://bulldogs.vercel.app/", 
+    "name": "BDOG",                   
+    "iconUrl": "https://bulldogs.vercel.app/",          
     "termsOfUseUrl": "",  
     "privacyPolicyUrl": ""
 }

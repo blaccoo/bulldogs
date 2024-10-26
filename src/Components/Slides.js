@@ -9,7 +9,7 @@ const slides = [
   },
   {
     title: '$BDOG COMMUNITY',
-    description: 'Join RISINGCOIN community channel',
+    description: 'Join BDOG community channel',
     link: '', 
   },
 ];
