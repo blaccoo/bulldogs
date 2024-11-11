@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { doc, updateDoc, arrayUnion, increment } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, increment, getDoc  } from 'firebase/firestore';
 import { db } from '../firebase/firestore'; 
 import { useUser } from "../context/userContext"; 
 import { IoCheckmarkCircleSharp } from 'react-icons/io5';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { CiNoWaitingSign } from "react-icons/ci";
+import { differenceInDays, parseISO } from 'date-fns';
 
 
 
@@ -22,7 +23,90 @@ const ManualTasks = () => {
   const [congrats, setCongrats] = useState(false);
 
   const userReferralCode = `https://t.me/Risingcoin_appbot?start=r${userId}\n\ `;
+  const [lastShareDate, setLastShareDate] = useState(null);
  
+
+  
+  useEffect(() => {
+    const fetchLastShareDate = async () => {
+      try {
+        const userDocRef = doc(db, 'telegramUsers', userId);
+        const userDoc = await getDoc(userDocRef); // Use getDoc to retrieve the document
+
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          const today = new Date();
+          setLastShareDate(data.lastShareDate || today);
+           console.log(lastShareDate)
+          // Check if the last share date is more than a day ago
+        
+          if (data.lastShareDate) {
+            const lastShareDateObj = parseISO(data.lastShareDate);
+            const daysDifference = differenceInDays(today, lastShareDateObj);
+            console.log(daysDifference)
+            // Call getWhatsAppTask if more than a day has passed
+         
+            if (daysDifference > 0) {
+              saveTaskToUser2()
+            }
+          } else {
+            // If lastShareDate doesn't exist, call getWhatsAppTask for the first share
+            // await getWhatsAppTask();
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching last share date: ", error);
+      }
+    };
+
+    fetchLastShareDate();
+  }, [userId]);
+  
+  const saveTaskToUser2 = async () => {
+    try {
+      
+      const userDocRef = doc(db, 'telegramUsers', userId);
+      
+      // Fetch the current user's data
+      const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        console.log('User document not found');
+        return;
+      }
+  
+      // Get the current manualTasks array
+      const data = userDoc.data();
+      const currentTasks = data.manualTasks || [];
+  
+      // Find the task that needs to be updated
+      const taskIndex = currentTasks.findIndex(task => task.taskId == 5); // Assuming taskId is unique
+      
+      if (taskIndex === -1) {
+        console.log('Task not found');
+        return;
+      }
+  
+      // Update the existing task (modify the task properties as needed)
+      const updatedTask = { ...currentTasks[taskIndex], completed: false }; // example update
+  
+      // Replace the task in the array with the updated one
+      currentTasks[taskIndex] = updatedTask;
+  
+      // Update the document with the modified tasks array
+      await updateDoc(userDocRef, {
+        manualTasks: currentTasks, // Replace the array with the updated one
+      });
+  
+
+      console.log('Task updated in user\'s manualTasks collection');
+
+      
+  
+  
+    } catch (error) {
+      console.error('Error updating task in user\'s document: ', error);
+    }
+  };
   
   const performTask = (taskId) => {
     const task = manualTasks.find(task => task.id === taskId);
@@ -51,8 +135,19 @@ const ManualTasks = () => {
     Ending Soon.
     Join now
     👇👇👇👇 ${userReferralCode}`;
+
+    const userDocRef = doc(db, 'telegramUsers', userId);
+      
+    // Fetch the current user's data
+    const userDoc = await getDoc(userDocRef);
+    if (!userDoc.exists()) {
+      console.log('User document not found');
+      return;
+    }
       
         try {
+            
+
           const response = await fetch(referralImageUrl);
           const blob = await response.blob();
           const file = new File([blob], "referral.jpg", { type: "image/jpeg" });
@@ -63,15 +158,27 @@ const ManualTasks = () => {
               text: shareText,
               files: [file],
             });
+
           } else {
             throw new Error("Image sharing not supported");
           }
+
+
         } catch (error) {
           const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
           window.open(whatsappUrl, '_blank');
+
         }
     
         // Update last share date
+              // Update the `lastShareDate`
+      const today = new Date().toISOString().split('T')[0]; // Get current date
+      await updateDoc(userDocRef, {
+        lastShareDate: today // Save the current date
+      });
+  
+      // Update local state for the task
+      setLastShareDate(today);
     
       };
 
