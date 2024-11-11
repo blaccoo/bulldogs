@@ -28,7 +28,7 @@ const ManualTasks = () => {
 
   
   useEffect(() => {
-    localStorage.removeItem(`submitted_${5}`);
+  
     const fetchLastShareDate = async () => {
       try {
         const userDocRef = doc(db, 'telegramUsers', userId);
