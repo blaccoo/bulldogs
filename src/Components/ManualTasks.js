@@ -28,6 +28,7 @@ const ManualTasks = () => {
 
   
   useEffect(() => {
+    localStorage.removeItem(`submitted_${5}`);
     const fetchLastShareDate = async () => {
       try {
         const userDocRef = doc(db, 'telegramUsers', userId);
@@ -78,8 +79,11 @@ const ManualTasks = () => {
       const data = userDoc.data();
       const currentTasks = data.manualTasks || [];
   
+      // Define the taskId you want to delete
+      const taskIdToDelete = 5;
+  
       // Filter out the task with taskId 5 (or whichever ID you want to delete)
-      const updatedTasks = currentTasks.filter(task => task.taskId !== 5);
+      const updatedTasks = currentTasks.filter(task => task.taskId !== taskIdToDelete);
       
       // Update the document with the modified tasks array
       await updateDoc(userDocRef, {
@@ -91,10 +95,15 @@ const ManualTasks = () => {
       // Update the local userManualTasks state
       setUserManualTasks(updatedTasks);
   
+      // Remove the task from localStorage
+      localStorage.removeItem(`submitted_${taskIdToDelete}`);
+      console.log(`Removed localStorage entry for taskId ${taskIdToDelete}`);
+  
     } catch (error) {
       console.error('Error deleting task from user\'s document: ', error);
     }
   };
+  
   
   
 
