@@ -21,15 +21,60 @@ const ManualTasks = () => {
   const [claimedBonus, setClaimedBonus] = useState(0); // New state to store the claimed bonus amount
   const [congrats, setCongrats] = useState(false);
 
+  const userReferralCode = `https://t.me/Risingcoin_appbot?start=r${userId}\n\ `;
+ 
+  
   const performTask = (taskId) => {
     const task = manualTasks.find(task => task.id === taskId);
     if (task) {
-      window.open(task.link, '_blank');
+  
+        if (task.title === "Share on WhatsApp Status") {
+          // Call the WhatsApp sharing function
+          handleWhatsAppShare();
+        } else {
+          // Open the task link in a new tab
+          window.open(task.link, '_blank');
+        }
+   
       setTimeout(() => {
         setShowVerifyButtons(prevState => ({ ...prevState, [taskId]: true }));
       }, 2000); // Enable the verify button after 2 seconds
     }
   };
+
+
+      const handleWhatsAppShare = async () => {
+        const referralImageUrl = `/share-image.jpg`;
+        const shareText = `100,000+ Members already joined. 
+    Join me in Rising Coin Now and earn exclusive free airdrop reward.
+    
+    Ending Soon.
+    Join now
+    👇👇👇👇 ${userReferralCode}`;
+      
+        try {
+          const response = await fetch(referralImageUrl);
+          const blob = await response.blob();
+          const file = new File([blob], "referral.jpg", { type: "image/jpeg" });
+      
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: "Join Our Community!",
+              text: shareText,
+              files: [file],
+            });
+          } else {
+            throw new Error("Image sharing not supported");
+          }
+        } catch (error) {
+          const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+          window.open(whatsappUrl, '_blank');
+        }
+    
+        // Update last share date
+    
+      };
+
 
   const startCountdown = (taskId) => {
     setCountdowns(prevState => ({ ...prevState, [taskId]: 5 }));
