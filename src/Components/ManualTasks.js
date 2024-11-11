@@ -62,10 +62,11 @@ const ManualTasks = () => {
     fetchLastShareDate();
   }, [userId]);
   
+  
   const saveTaskToUser2 = async () => {
     try {
       const userDocRef = doc(db, 'telegramUsers', userId);
-  
+      
       // Fetch the current user's data
       const userDoc = await getDoc(userDocRef);
       if (!userDoc.exists()) {
@@ -77,43 +78,26 @@ const ManualTasks = () => {
       const data = userDoc.data();
       const currentTasks = data.manualTasks || [];
   
-      // Find the task that needs to be updated
-      const taskIndex = currentTasks.findIndex(task => task.taskId == 5); // Assuming taskId is unique
-  
-      if (taskIndex === -1) {
-        console.log('Task not found');
-        return;
-      }
-  
-      // Update the existing task (modify the task properties as needed)
-      const updatedTask = { ...currentTasks[taskIndex], completed: false }; // example update
-  
-      // Replace the task in the array with the updated one
-      currentTasks[taskIndex] = updatedTask;
-  
+      // Filter out the task with taskId 5 (or whichever ID you want to delete)
+      const updatedTasks = currentTasks.filter(task => task.taskId !== 5);
+      
       // Update the document with the modified tasks array
       await updateDoc(userDocRef, {
-        manualTasks: currentTasks, // Replace the array with the updated one
+        manualTasks: updatedTasks,
       });
   
-      console.log('Task updated in user\'s manualTasks collection');
+      console.log('Task deleted from user\'s manualTasks collection');
   
-      // Update the 'submitted' state
-      setSubmitted(prevState => ({ ...prevState, [taskIndex]: false }));
-      localStorage.setItem(`submitted_${taskIndex}`, false);
-  
-      // Remove the task from the claiming array
-      setClaiming(prevState => {
-        const newClaimingState = { ...prevState };
-        delete newClaimingState[taskIndex]; // Removes task from claiming
-        return newClaimingState;
-      });
+      // Update the local userManualTasks state
+      setUserManualTasks(updatedTasks);
   
     } catch (error) {
-      console.error('Error updating task in user\'s document: ', error);
+      console.error('Error deleting task from user\'s document: ', error);
     }
   };
   
+  
+
   
   const performTask = (taskId) => {
     const task = manualTasks.find(task => task.id === taskId);
@@ -323,6 +307,7 @@ const ManualTasks = () => {
   .map(task => {
     const userTask = userManualTasks.find(t => t.taskId === task.id);
     const isTaskCompleted = userTask ? userTask.completed : false;
+
     const isTaskSaved = !!userTask;
 
         return (
@@ -333,13 +318,6 @@ const ManualTasks = () => {
               <img alt="engy" src={task.icon} className='w-[20px]' />
             </div>
           </div>
-          <ul>
-        {Object.entries(claiming).map(([taskId, isClaiming]) => (
-          <li key={taskId}>
-            Task ID: {taskId} - Claiming Status: {isClaiming ? 'True' : 'False'}
-          </li>
-        ))}
-      </ul>
             <div className={`flex flex-1 h-full flex-col justify-center relative`}>
               <div className={`${showVerifyButtons[task.id] ? 'w-[90%]' : 'w-full'} flex flex-col justify-between h-full space-y-1`}>
                 <h1 className={`text-[15px] line-clamp-1 font-medium`}>
