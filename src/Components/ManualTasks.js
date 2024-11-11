@@ -333,6 +333,13 @@ const ManualTasks = () => {
               <img alt="engy" src={task.icon} className='w-[20px]' />
             </div>
           </div>
+          <ul>
+        {Object.entries(claiming).map(([taskId, isClaiming]) => (
+          <li key={taskId}>
+            Task ID: {taskId} - Claiming Status: {isClaiming ? 'True' : 'False'}
+          </li>
+        ))}
+      </ul>
             <div className={`flex flex-1 h-full flex-col justify-center relative`}>
               <div className={`${showVerifyButtons[task.id] ? 'w-[90%]' : 'w-full'} flex flex-col justify-between h-full space-y-1`}>
                 <h1 className={`text-[15px] line-clamp-1 font-medium`}>
