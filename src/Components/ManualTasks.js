@@ -64,9 +64,8 @@ const ManualTasks = () => {
   
   const saveTaskToUser2 = async () => {
     try {
-      
       const userDocRef = doc(db, 'telegramUsers', userId);
-      
+  
       // Fetch the current user's data
       const userDoc = await getDoc(userDocRef);
       if (!userDoc.exists()) {
@@ -80,7 +79,7 @@ const ManualTasks = () => {
   
       // Find the task that needs to be updated
       const taskIndex = currentTasks.findIndex(task => task.taskId == 5); // Assuming taskId is unique
-      
+  
       if (taskIndex === -1) {
         console.log('Task not found');
         return;
@@ -97,17 +96,24 @@ const ManualTasks = () => {
         manualTasks: currentTasks, // Replace the array with the updated one
       });
   
-
       console.log('Task updated in user\'s manualTasks collection');
-
+  
+      // Update the 'submitted' state
       setSubmitted(prevState => ({ ...prevState, [taskIndex]: false }));
       localStorage.setItem(`submitted_${taskIndex}`, false);
   
+      // Remove the task from the claiming array
+      setClaiming(prevState => {
+        const newClaimingState = { ...prevState };
+        delete newClaimingState[taskIndex]; // Removes task from claiming
+        return newClaimingState;
+      });
   
     } catch (error) {
       console.error('Error updating task in user\'s document: ', error);
     }
   };
+  
   
   const performTask = (taskId) => {
     const task = manualTasks.find(task => task.id === taskId);
