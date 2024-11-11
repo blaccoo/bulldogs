@@ -100,7 +100,8 @@ const ManualTasks = () => {
 
       console.log('Task updated in user\'s manualTasks collection');
 
-      
+      setSubmitted(prevState => ({ ...prevState, [taskIndex]: false }));
+      localStorage.setItem(`submitted_${taskIndex}`, false);
   
   
     } catch (error) {
@@ -136,15 +137,7 @@ const ManualTasks = () => {
     Join now
     👇👇👇👇 ${userReferralCode}`;
 
-    const userDocRef = doc(db, 'telegramUsers', userId);
-      
-    // Fetch the current user's data
-    const userDoc = await getDoc(userDocRef);
-    if (!userDoc.exists()) {
-      console.log('User document not found');
-      return;
-    }
-      
+   
         try {
             
 
@@ -170,8 +163,16 @@ const ManualTasks = () => {
 
         }
     
-        // Update last share date
-              // Update the `lastShareDate`
+        
+      
+        // Fetch the current user's data
+        const userDocRef = doc(db, 'telegramUsers', userId);
+        const userDoc = await getDoc(userDocRef);
+        if (!userDoc.exists()) {
+          console.log('User document not found');
+          return;
+        }
+          
       const today = new Date().toISOString().split('T')[0]; // Get current date
       await updateDoc(userDocRef, {
         lastShareDate: today // Save the current date
@@ -319,7 +320,7 @@ const ManualTasks = () => {
     const isTaskSaved = !!userTask;
 
         return (
-          <div key={task.id} className="w-full rounded-[16px] py-3 flex items-center justify-between space-x-1">
+          !isTaskCompleted &&<div key={task.id} className="w-full rounded-[16px] py-3 flex items-center justify-between space-x-1">
               
           <div className='w-fit pr-2'>
             <div className='flex items-center justify-center bg-[#1f2023] h-[45px] w-[45px] rounded-full p-1'>
