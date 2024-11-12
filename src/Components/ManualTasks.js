@@ -39,7 +39,7 @@ const ManualTasks = () => {
           
           // Parse lastShareDate and save as a Date object
           if (data.lastShareDate) {
-            const lastShareDateObj = new Date(daaddta.lastShareDate); // Ensure it's parsed as a Date object
+            const lastShareDateObj = new Date(data.lastShareDate); // Ensure it's parsed as a Date object
   
             // Check if 10 minutes have passed since last share
             const minutesDifference = differenceInMinutes(currentDateTime, lastShareDateObj);
