@@ -47,14 +47,14 @@ const ManualTasks = () => {
   
             if (minutesDifference >= 40) {
               saveTaskToUser2(); // Call your task-saving function
+              setLastShareDate(data.lastShareDate ? lastShareDateObj : currentDateTime);
             }
           } else {
-            // If lastShareDate doesn't exist, call saveTaskToUser2 for the first share
-            saveTaskToUser2();
+       
           }
   
           // Update state with the lastShareDate, or set to current time if not previously set
-          setLastShareDate(data.lastShareDate ? lastShareDateObj : currentDateTime);
+      
         }
       } catch (error) {
         console.error("Error fetching last share date: ", error);
