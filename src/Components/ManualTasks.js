@@ -34,7 +34,7 @@ const ManualTasks = () => {
         const userDoc = await getDoc(userDocRef);
   
         if (userDoc.exists()) {
-          const data = userDoc.data();
+          const data = userDoc.data();changes
           const currentDateTime = new Date();
           
           // Parse lastShareDate and save as a Date object
