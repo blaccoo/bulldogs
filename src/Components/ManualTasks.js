@@ -51,7 +51,7 @@ const ManualTasks = () => {
             }
           } else {
        
-          }
+          } 
   
           // Update state with the lastShareDate, or set to current time if not previously set
       
