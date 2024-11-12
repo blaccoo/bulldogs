@@ -45,7 +45,7 @@ const ManualTasks = () => {
             const minutesDifference = differenceInMinutes(currentDateTime, lastShareDateObj);
             console.log(`Minutes since last share: ${minutesDifference}`);
   
-            if (minutesDifference >= 40) {
+            if (minutesDifference >= 41) {
               saveTaskToUser2(); // Call your task-saving function
               setLastShareDate(data.lastShareDate ? lastShareDateObj : currentDateTime);
             }
