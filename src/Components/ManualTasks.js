@@ -28,40 +28,42 @@ const ManualTasks = () => {
 
   
   useEffect(() => {
-  
     const fetchLastShareDate = async () => {
       try {
         const userDocRef = doc(db, 'telegramUsers', userId);
-        const userDoc = await getDoc(userDocRef); // Use getDoc to retrieve the document
-
+        const userDoc = await getDoc(userDocRef);
+  
         if (userDoc.exists()) {
           const data = userDoc.data();
-          const today = new Date();
-          setLastShareDate(data.lastShareDate || today);
-           console.log(lastShareDate)
-          // Check if the last share date is more than a day ago
-        
+          const currentDateTime = new Date();
+          
+          // Parse lastShareDate and save as a Date object
           if (data.lastShareDate) {
-            const lastShareDateObj = parseISO(data.lastShareDate);
-            const daysDifference = differenceInDays(today, lastShareDateObj);
-            console.log(daysDifference)
-            // Call getWhatsAppTask if more than a day has passed
-         
-            if (daysDifference > 0) {
-              saveTaskToUser2()
+            const lastShareDateObj = new Date(data.lastShareDate); // Ensure it's parsed as a Date object
+  
+            // Check if 10 minutes have passed since last share
+            const minutesDifference = differenceInMinutes(currentDateTime, lastShareDateObj);
+            console.log(`Minutes since last share: ${minutesDifference}`);
+  
+            if (minutesDifference >= 40) {
+              saveTaskToUser2(); // Call your task-saving function
             }
           } else {
-            // If lastShareDate doesn't exist, call getWhatsAppTask for the first share
-            // await getWhatsAppTask();
+            // If lastShareDate doesn't exist, call saveTaskToUser2 for the first share
+            saveTaskToUser2();
           }
+  
+          // Update state with the lastShareDate, or set to current time if not previously set
+          setLastShareDate(data.lastShareDate ? lastShareDateObj : currentDateTime);
         }
       } catch (error) {
         console.error("Error fetching last share date: ", error);
       }
     };
-
+  
     fetchLastShareDate();
   }, [userId]);
+  
   
   
   const saveTaskToUser2 = async () => {
@@ -127,60 +129,51 @@ const ManualTasks = () => {
   };
 
 
-      const handleWhatsAppShare = async () => {
-        const referralImageUrl = `/share-image.jpg`;
-        const shareText = `100,000+ Members already joined. 
-    Join me in Rising Coin Now and earn exclusive free airdrop reward.
-    
-    Ending Soon.
-    Join now
-    👇👇👇👇 ${userReferralCode}`;
-
-   
-        try {
-            
-
-          const response = await fetch(referralImageUrl);
-          const blob = await response.blob();
-          const file = new File([blob], "referral.jpg", { type: "image/jpeg" });
-      
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              title: "Join Our Community!",
-              text: shareText,
-              files: [file],
-            });
-
-          } else {
-            throw new Error("Image sharing not supported");
-          }
-
-
-        } catch (error) {
-          const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-          window.open(whatsappUrl, '_blank');
-
-        }
-    
-        
-      
-        // Fetch the current user's data
-        const userDocRef = doc(db, 'telegramUsers', userId);
-        const userDoc = await getDoc(userDocRef);
-        if (!userDoc.exists()) {
-          console.log('User document not found');
-          return;
-        }
-          
+  const handleWhatsAppShare = async () => {
+    const referralImageUrl = `/share-image.jpg`;
+    const shareText = `100,000+ Members already joined. 
+  Join me in Rising Coin Now and earn exclusive free airdrop reward.
+  
+  Ending Soon.
+  Join now
+  👇👇👇👇 ${userReferralCode}`;
+  
+    try {
+      // Fetch image as a blob
+      const response = await fetch(referralImageUrl);
+      const blob = await response.blob();
+      const file = new File([blob], "referral.jpg", { type: "image/jpeg" });
+  
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        // Use the Web Share API if available and supported
+        await navigator.share({
+          title: "Join Our Community!",
+          text: shareText,
+          files: [file],
+        });
+      } else {
+        throw new Error("Image sharing not supported"); // Trigger fallback if sharing is not supported
+      }
+    } catch (error) {
+      console.warn("Web Share API failed or unsupported:", error);
+      // Fallback: open WhatsApp URL with encoded text
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  
+    // Save the share action to Firestore
+    try {
+      const userDocRef = doc(db, 'telegramUsers', userId);
       const today = new Date().toISOString().split('T')[0]; // Get current date
       await updateDoc(userDocRef, {
         lastShareDate: today // Save the current date
       });
-  
-      // Update local state for the task
       setLastShareDate(today);
-    
-      };
+    } catch (error) {
+      console.error("Error updating lastShareDate in Firestore:", error);
+    }
+  };
+  
 
 
   const startCountdown = (taskId) => {
