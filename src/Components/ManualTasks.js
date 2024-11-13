@@ -28,41 +28,40 @@ const ManualTasks = () => {
 
   
   useEffect(() => {
+  
     const fetchLastShareDate = async () => {
       try {
         const userDocRef = doc(db, 'telegramUsers', userId);
-        const userDoc = await getDoc(userDocRef);
-  
+        const userDoc = await getDoc(userDocRef); // Use getDoc to retrieve the document
+
         if (userDoc.exists()) {
           const data = userDoc.data();
-          const currentDateTime = new Date();
-          
-          // Parse lastShareDate and save as a Date object
+          const today = new Date();
+          setLastShareDate(data.lastShareDate || today);
+           console.log(lastShareDate)
+          // Check if the last share date is more than a day ago
+        
           if (data.lastShareDate) {
-            const lastShareDateObj = new Date(data.lastShareDate); // Ensure it's parsed as a Date object
-  
-            // Check if 10 minutes have passed since last share
-            const minutesDifference = differenceInMinutes(currentDateTime, lastShareDateObj);
-            console.log(`Minutes since last share: ${minutesDifference}`);
-  
-            if (minutesDifference >= 40) {
-              saveTaskToUser2(); // Call your task-saving function
-              setLastShareDate(data.lastShareDate ? lastShareDateObj : currentDateTime);
+            const lastShareDateObj = parseISO(data.lastShareDate);
+            const daysDifference = differenceInDays(today, lastShareDateObj);
+            console.log(daysDifference)
+            // Call getWhatsAppTask if more than a day has passed
+         
+            if (daysDifference > 0) {
+              saveTaskToUser2()
             }
           } else {
-       
-          } 
-  
-          // Update state with the lastShareDate, or set to current time if not previously set
-      
+            // If lastShareDate doesn't exist, call getWhatsAppTask for the first share
+            // await getWhatsAppTask();
+          }
         }
       } catch (error) {
         console.error("Error fetching last share date: ", error);
       }
     };
-  
+
     fetchLastShareDate();
-  }, [userId]);
+  }, [userId]); 
   
   
   
@@ -98,8 +97,8 @@ const ManualTasks = () => {
       setUserManualTasks(updatedTasks);
   
       // Remove the task from localStorage
-      // localStorage.removeItem(`submitted_${taskIdToDelete}`);
-      // console.log(`Removed localStorage entry for taskId ${taskIdToDelete}`);
+      localStorage.removeItem(`submitted_${taskIdToDelete}`);
+      console.log(`Removed localStorage entry for taskId ${taskIdToDelete}`);
   
     } catch (error) {
       console.error('Error deleting task from user\'s document: ', error);
@@ -177,7 +176,7 @@ const ManualTasks = () => {
 
 
   const startCountdown = (taskId) => {
-    setCountdowns(prevState => ({ ...prevState, [taskId]: 5 }));
+    setCountdowns(prevState => ({ ...prevState, [taskId]: taskId }));
     setButtonText(prevState => ({ ...prevState, [taskId]: 'Verifying...' }));
 
     const countdownInterval = setInterval(() => {
