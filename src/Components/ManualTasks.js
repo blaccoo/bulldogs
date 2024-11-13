@@ -28,7 +28,7 @@ const ManualTasks = () => {
 
   
   useEffect(() => {
-    localStorage.removeItem(`submitted_${5}`);
+   
     const fetchLastShareDate = async () => {
       try {
         const userDocRef = doc(db, 'telegramUsers', userId);
@@ -47,7 +47,7 @@ const ManualTasks = () => {
             console.log(daysDifference)
             // Call getWhatsAppTask if more than a day has passed
          
-            if (daysDifference > 0) {
+            if (daysDifference == 0) {
               saveTaskToUser2()
             }
           } else {
@@ -374,7 +374,7 @@ const ManualTasks = () => {
                     <div className='w-full flex items-center justify-center relative'>
                     <AiOutlineLoading3Quarters size={20} className='absolute animate-spin text-secondary'/>
                       <span className='absolute text-[8px]'>
-                       {countdowns[task.id]}s
+                       {countdowns[task.id]}
                        </span>
                     </div>
 
