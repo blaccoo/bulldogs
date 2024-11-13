@@ -34,7 +34,7 @@ const ManualTasks = () => {
         const userDoc = await getDoc(userDocRef);
   
         if (userDoc.exists()) {
-          const data = userDoc.data();changes
+          const data = userDoc.data();
           const currentDateTime = new Date();
           
           // Parse lastShareDate and save as a Date object
@@ -45,7 +45,7 @@ const ManualTasks = () => {
             const minutesDifference = differenceInMinutes(currentDateTime, lastShareDateObj);
             console.log(`Minutes since last share: ${minutesDifference}`);
   
-            if (minutesDifference >= 41) {
+            if (minutesDifference >= 40) {
               saveTaskToUser2(); // Call your task-saving function
               setLastShareDate(data.lastShareDate ? lastShareDateObj : currentDateTime);
             }
@@ -98,8 +98,8 @@ const ManualTasks = () => {
       setUserManualTasks(updatedTasks);
   
       // Remove the task from localStorage
-      localStorage.removeItem(`submitted_${taskIdToDelete}`);
-      console.log(`Removed localStorage entry for taskId ${taskIdToDelete}`);
+      // localStorage.removeItem(`submitted_${taskIdToDelete}`);
+      // console.log(`Removed localStorage entry for taskId ${taskIdToDelete}`);
   
     } catch (error) {
       console.error('Error deleting task from user\'s document: ', error);
