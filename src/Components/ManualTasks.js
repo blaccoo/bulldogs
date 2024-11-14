@@ -136,7 +136,7 @@ This could be a secret fortune! Big Airdropers are talking about it!
 Join me on Rising Coin now to claim your reward.
 
 Ending soon, so don't miss out!
-👇👇👇👇 ${userReferralCode}`;
+ 👇👇👇👇 ${userReferralCode}`;
   
     try {
       // Fetch image as a blob
