@@ -130,12 +130,13 @@ const ManualTasks = () => {
 
   const handleWhatsAppShare = async () => {
     const referralImageUrl = `/share-image.jpg`;
-    const shareText = `100,000+ Members already joined. 
-  Join me in Rising Coin Now and earn exclusive free airdrop reward.
-  
-  Ending Soon.
-  Join now
-  👇👇👇👇 ${userReferralCode}`;
+    const shareText = `I earn 10,000 $RSC tokens daily by mining Rising Coin.
+
+This could be a secret fortune! Big Airdropers are talking about it!
+Join me on Rising Coin now to claim your reward.
+
+Ending soon, so don't miss out!
+👇👇👇👇 ${userReferralCode}`;
   
     try {
       // Fetch image as a blob
