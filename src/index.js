@@ -30,15 +30,14 @@ import AlphaDogs from "./pages/AlphaDogs";
 
 import { createAppKit } from '@reown/appkit/react';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
-import { arbitrum, mainnet, polygonAmoy } from '@reown/appkit/networks';
-import ConnectButton from "./Components/UsdtEarn/WithdrawButton";
+import { polygonAmoy } from '@reown/appkit/networks';
 import UserDashboard from "./Components/UsdtEarn/UserDashboard";
 
 
 // Initialize AppKit
 createAppKit({
   adapters: [new EthersAdapter()],
-  networks: [arbitrum, mainnet,polygonAmoy],
+  networks: [polygonAmoy],
   metadata: {
     name: 'My Website',
     description: 'My Website Description',
