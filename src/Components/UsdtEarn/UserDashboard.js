@@ -5,6 +5,7 @@ import { FaLink } from "react-icons/fa6";
 import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
 import { BrowserProvider, Contract, formatUnits } from 'ethers'
 import ConnectButton from './ConnectButton';
+import { Link } from 'react-router-dom';
 
 const USDTAddress = '0x76ef779fD22eBBBFE0F683363b6Ba1DFD1B12228'
 
@@ -431,7 +432,29 @@ const UserDashboard = () => {
   return (
     <div style={{marginBlock: ""}}>
      
-      <ConnectButton/>
+     {!isConnected && <ConnectButton/>} 
+
+     {isConnected && 
+     
+    
+     <div className='w-full flex items-center justify-center pb-3 mt-5'>
+
+<div className="w-[74%] font-medium bg-cards px-4 py-[15px] text-primary text-[13px] space-x-1 rounded-full flex items-center justify-between ">
+        
+            <span className="">
+              {address}
+            </span>
+
+            
+            <Link className="text-red-500 ">
+  disconnect
+</Link>
+
+
+          </div>
+
+    
+</div>} 
 
    
 
@@ -485,7 +508,7 @@ const UserDashboard = () => {
   <img src='/bulllogo2.png' alt="gf" className="w-[35px]"/>
   <div className="flex flex-col">
     <h3 className="font-medium">
-      Invite a friend   and start earning for life
+      Invite a friend and start earning for life
     </h3>
   </div>
 </div>
