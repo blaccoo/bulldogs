@@ -28,7 +28,8 @@ const ManualTasks = () => {
 
   
   useEffect(() => {
-   
+     
+    
     const fetchLastShareDate = async () => {
       try {
         const userDocRef = doc(db, 'telegramUsers', userId);
@@ -81,9 +82,9 @@ const ManualTasks = () => {
       const currentTasks = data.manualTasks || [];
   
       // Define the taskId you want to delete
-      const taskIdToDelete = 5;
+      const taskIdToDelete = 9;
   
-      // Filter out the task with taskId 5 (or whichever ID you want to delete)
+      // Filter out the task with taskId 9 (or whichever ID you want to delete)
       const updatedTasks = currentTasks.filter(task => task.taskId !== taskIdToDelete);
       
       // Update the document with the modified tasks array
@@ -254,10 +255,10 @@ Ending soon, so don't miss out!
           <p className='font-medium text-center'>Let's go!!</p>
         </div>
         <h3 className="font-medium text-[20px] text-[#ffffff] pt-2 pb-2">
-          <span className={`text-accent`}>+{formatNumber(task.bonus)}</span> BDOG CLAIMED
+          <span className={`text-accent`}>+{formatNumber(task.bonus)}</span> RSC CLAIMED
         </h3>
         <p className="pb-6 text-[15px] w-full text-center">
-          Keep performing new tasks! something huge is coming! Perform more and earn more BDOG now! 
+          Keep performing new tasks! something huge is coming! Perform more and earn more RSC now! 
         </p>
       </div>
     );
@@ -328,7 +329,7 @@ Ending soon, so don't miss out!
                 <span className='flex text-secondary items-center w-fit text-[15px]'>
                
                   <span className=''>
-                    +{formatNumber(task.bonus)} $BDOG
+                    +{formatNumber(task.bonus)} $RSC
                   </span>
                 </span>
               </div>

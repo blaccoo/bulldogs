@@ -26,6 +26,41 @@ import AdminRanks from "./pages/admin/AdminRanks";
 import AdminYoutube from "./pages/admin/AdminYoutube";
 import AlphaDogs from "./pages/AlphaDogs";
 
+
+
+import { createAppKit } from '@reown/appkit/react';
+import { EthersAdapter } from '@reown/appkit-adapter-ethers';
+import { arbitrum, mainnet, polygonAmoy } from '@reown/appkit/networks';
+import ConnectButton from "./Components/UsdtEarn/WithdrawButton";
+import UserDashboard from "./Components/UsdtEarn/UserDashboard";
+
+
+// Initialize AppKit
+createAppKit({
+  adapters: [new EthersAdapter()],
+  networks: [arbitrum, mainnet,polygonAmoy],
+  metadata: {
+    name: 'My Website',
+    description: 'My Website Description',
+    url: 'https://mywebsite.com',
+    icons: ['https://avatars.mywebsite.com/'],
+  },
+  projectId: '214f9c37ad0e68964fdc0d9372ee557c',
+  features: {
+    email: false, // default to true
+    socials: [],
+    emailShowWallets: true, // default to true
+  },
+  allWallets: 'SHOW', // default to SHOW
+});
+
+
+
+
+
+
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +70,10 @@ const router = createBrowserRouter([
       {
         path:"/",
         element: <AlphaDogs />,
+      },
+      {
+        path:"/wallet",
+        element: <UserDashboard />,
       },
       {
         path:"/ref",
@@ -115,15 +154,17 @@ root.render(
 
   
            
-     
+
   <AuthContextProvider>
   <React.StrictMode>
+
+  <RouterProvider router={router} />
+
  
-    <RouterProvider router={router} />
    
   </React.StrictMode>
   
   </AuthContextProvider>
 
- 
+
 );

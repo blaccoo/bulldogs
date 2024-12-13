@@ -1,8 +1,8 @@
 <?php
+7
 
 
-
-$apiKey = '7868386103:AAGKa4jTw3qHmqRM3OcxfagLxLUVWMDiRGU'; // Your Telegram bot API key
+$apiKey = '868386103:AAGKa4jTw3qHmqRM3OcxfagLxLUVWMDiRGU'; // Your Telegram bot API key
 $apiUrl = "https://api.telegram.org/bot$apiKey/";
 
 // Get the incoming message
@@ -18,7 +18,7 @@ $user_name = $update['message']['from']['first_name']; // Get user's first name
 
 // Path to the image
 $photoPath = __DIR__ . '/home.png'; // Absolute path to the image
-
+ 
 // Check if the "/start" command has a referral
 if (isset($update['message']['text']) && strpos($text, '/start') === 0) {
     // Extract the referrer ID from the referral link (if present)

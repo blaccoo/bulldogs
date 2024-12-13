@@ -15,6 +15,7 @@ const Ref = () => {
   const { id, referrals, refBonus, loading } = useUser();
   const [copied, setCopied] = useState(false);
   const [info, setInfo] = useState(false)
+  
 
 
   const openInfo = () =>{
