@@ -485,11 +485,8 @@ const UserDashboard = () => {
   <img src='/bulllogo2.png' alt="gf" className="w-[35px]"/>
   <div className="flex flex-col">
     <h3 className="font-medium">
-      Invite a friend
+      Invite a friend   and start earning for life
     </h3>
-    <p className="text-[13px]">
-      get 5% of your friend's earnings
-    </p>
   </div>
 </div>
 
