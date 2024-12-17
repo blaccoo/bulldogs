@@ -71,7 +71,7 @@ const router = createBrowserRouter([
         element: <AlphaDogs />,
       },
       {
-        path:"/wallet",
+        path:"/usdtearn",
         element: <UserDashboard />,
       },
       {
