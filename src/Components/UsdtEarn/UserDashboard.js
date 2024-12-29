@@ -19,7 +19,8 @@ import WithdrawalPage from './WithdrawalPage';
 const UserDashboard = () => {
   const [userDetails, setUserDetails] = useState({});
   const [referralLink, setReferralLink] = useState('');
-  const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState(null);
+  const [earned, setEarned] = useState(null);
   const [join, setJoin] = useState(false);
   const [balance, setBalance] = useState(5);
   const [referredBy, setReferredBy] = useState('');
@@ -33,27 +34,27 @@ const UserDashboard = () => {
   const { disconnect } = useDisconnect()
 
 
+
   useEffect(() => {
     if (!isConnected) {
-      fetchUserLevel(address);
+      fetchUserDetails(address);
     }
   }, [isConnected]);
-
-  const fetchUserLevel = async (walletAddress) => {
+ 
+  const fetchUserDetails = async (walletAddress) => {
     if (!walletAddress) return;
 
     try {
-      // Connect to Ethereum provider and contract
-      const ethersProvider = new BrowserProvider(walletProvider)
-      const signer = await ethersProvider.getSigner()
-      // The Contract object
-      const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, signer)
+      const ethersProvider = new BrowserProvider(walletProvider);
+      const signer = await ethersProvider.getSigner();
+      const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, signer);
 
-      // Call the `users` function with the connected address
-      const userInfo = await RisingCoinUsdtEarn.users(walletAddress);
+      // Fetch user data from the contract
+      const userInfo = await RisingCoinUsdtEarn.users(walletAddress); // Assuming `users` returns user details
       setLevel(userInfo.level.toString());
+      setEarned(userInfo.earned.toString()); // Assuming earned is returned as a field
     } catch (err) {
-      setError(err.message);
+      setError("Error fetching user details: " + err.message);
     }
   };
 

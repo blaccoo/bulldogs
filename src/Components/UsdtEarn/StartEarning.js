@@ -32,7 +32,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
       const signer = await ethersProvider.getSigner();
       const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, signer);
 
-      const tx = await RisingCoinUsdtEarn.joinNetwork(referrerAddress);
+      const tx = await RisingCoinUsdtEarn.joinNetwork(referrer);
       await tx.wait();
 
       setSuccess("Successfully joined the network! Start earning now.");

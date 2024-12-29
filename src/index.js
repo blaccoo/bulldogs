@@ -32,6 +32,7 @@ import { createAppKit } from '@reown/appkit/react';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
 import { polygonAmoy } from '@reown/appkit/networks';
 import UserDashboard from "./Components/UsdtEarn/UserDashboard";
+import BalanceChecker from "./pages/BalanceChecker";
 
 
 // Initialize AppKit
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path:"/ref",
         element: <Ref />,
+      },
+      {
+        path:"/test",
+        element: <BalanceChecker/>
       },
       {
         path:"/airdrop",

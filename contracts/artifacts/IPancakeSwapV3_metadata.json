@@ -1,0 +1,74 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount0",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount1",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "flash",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/kulpayaiabitrage.sol": "IPancakeSwapV3"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/kulpayaiabitrage.sol": {
+			"keccak256": "0xf7b6feed42d2cb168a4538bb80f73f528b69c01801320cdf2e25fdb808b3f2c9",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3267b01051899ea6601c39b3ca1e44f84426b0dd27ab267943ad886ef5e9f930",
+				"dweb:/ipfs/QmPaHbp8dWMoUjuaGFvdkmbTQM9iNaLrcSNntyi8zGpngS"
+			]
+		}
+	},
+	"version": 1
+}
