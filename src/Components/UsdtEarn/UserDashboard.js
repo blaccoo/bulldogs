@@ -134,20 +134,20 @@ const UserDashboard = () => {
 </div>} 
 
    
-
+{isConnected && 
 <div className="className='w-full flex items-center justify-center pb-3'">
 <div className="w-fit bg-cards px-4 py-2 text-[15px] font-semibold rounded-full flex items-center justify-center space-x-1">
           <img src="/bulllogo2.png" alt="sfdf" className="w-[14px]"/>
           <span className="text-secondary">Balance</span> <span> {balance} </span>
         </div>
-</div>
-
+</div>}
+{isConnected && 
 <div className="className='w-full flex items-center justify-center pb-3'" style={{marginBlock:"1rem"}}>
 <div className="w-fit bg-cards px-4 py-2 text-[15px] font-semibold rounded-full flex items-center justify-center space-x-1">
           <img src="/bulllogo2.png" alt="sfdf" className="w-[14px]"/>
           <span className="text-secondary">Level</span> <span> {level} </span>
         </div>
-</div>
+</div>}
 
 { join &&<input
   type="text"
@@ -157,15 +157,17 @@ const UserDashboard = () => {
   placeholder="Enter referral address"
 />}
 
-<StartEarning isConnected address walletProvider/>
+
+{isConnected && 
+<StartEarning isConnected address walletProvider/>}
 
 
       
+{isConnected && 
 
+<WithdrawalPage isConnected={isConnected} address={address} walletProvider={walletProvider} />}
 
-<WithdrawalPage isConnected={isConnected} address={address} walletProvider={walletProvider} />
-
-
+{isConnected && 
 <div className="w-full pt-3 justify-center flex-col space-y-3 px-5">
        
 
@@ -237,14 +239,11 @@ const UserDashboard = () => {
 
 
       
-          </div>
+          </div>}
 
 
-<div>
 
-</div>
-
-
+         { isConnected && 
 
 <div className="flex items-center space-x-3">
   <img src='/bulllogo2.png' alt="gf" className="w-[35px]"/>
@@ -260,7 +259,9 @@ const UserDashboard = () => {
     </h3>
 
   </div>
-</div>
+</div>}
+
+
   </div>
   );
 };
