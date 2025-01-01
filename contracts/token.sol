@@ -23,8 +23,8 @@ interface IERC20 {
  
 // Implementation of the ERC20 standard 
 contract MyERC20Token is IERC20 {
-    string public name = "KLPTAI"; // Token name
-    string public symbol = "KLPTAI";  // Token symbol
+    string public name = "USDT"; // Token name
+    string public symbol = "USDT";  // Token symbol
     uint8 public decimals = 18;    // Decimals (commonly 18 for ERC20 tokens)
     uint256 private _totalSupply;  // Total supply of tokens
 

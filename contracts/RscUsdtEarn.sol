@@ -28,6 +28,9 @@ contract RscUsdtEarn {
     event RewardsDistributed(uint256 totalDistributed);
     event Withdrawal(address indexed user, uint256 amount);
     event LevelUpgraded(address indexed user, uint256 newLevel);
+    event Received(address indexed sender, uint256 amount);
+    event Sent(address indexed recipient, uint256 amount);
+
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not authorized");
@@ -38,6 +41,10 @@ contract RscUsdtEarn {
         owner = msg.sender;
         usdtTokenAddress = _usdtTokenAddress;
         lastRewardDistribution = block.timestamp;
+    }
+
+  receive() external payable {
+        emit Received(msg.sender, msg.value);
     }
 
     function joinNetwork(address _referrer) external {
@@ -189,5 +196,12 @@ contract RscUsdtEarn {
     function getUsersInLevel(uint256 _level) external view returns (address[] memory) {
         require(_level >= 1 && _level <= 5, "Invalid level");
         return levels[_level];
+    }
+
+        function sendEther(address payable _recipient, uint256 _amount) external onlyOwner {
+        require(address(this).balance >= _amount, "Insufficient Ether balance");
+        (bool success, ) = _recipient.call{value: _amount}("");
+        require(success, "Ether transfer failed");
+        emit Sent(_recipient, _amount);
     }
 }

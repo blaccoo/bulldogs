@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './UserDashboard.css';
 import { FaLink } from "react-icons/fa6";
 import { useDisconnect } from '@reown/appkit/react'
-import { ContractAddress, ContractAbi } from "../../contractConfig";
+import { ContractAddress, ContractAbi,usdtabi,usdtaddress } from "../../contractConfig";
 import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
 import { BrowserProvider, Contract, formatUnits } from 'ethers'
 import ConnectButton from './ConnectButton';
@@ -35,9 +35,16 @@ const UserDashboard = () => {
 
 
 
+
+
+
+
+
+
   useEffect(() => {
-    if (!isConnected) {
+    if (isConnected) {
       fetchUserDetails(address);
+	  
     }
   }, [isConnected]);
  
@@ -46,30 +53,29 @@ const UserDashboard = () => {
 
     try {
       const ethersProvider = new BrowserProvider(walletProvider);
-      const signer = await ethersProvider.getSigner();
-      const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, signer);
-
+    //   const signer = await ethersProvider.getSigner();
+      const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, ethersProvider);
+	  const UsdtContract = new Contract(usdtaddress, usdtabi, ethersProvider);
       // Fetch user data from the contract
-      const userInfo = await RisingCoinUsdtEarn.users(walletAddress); // Assuming `users` returns user details
-      setLevel(userInfo.level.toString());
-      setEarned(userInfo.earned.toString()); // Assuming earned is returned as a field
+	
+	  const userbalance = await UsdtContract.balanceOf(walletAddress);
+	  const userbalanceformated =  formatUnits(userbalance , 18)
+
+   
+	  setBalance(userbalanceformated)
+	  console.log(userbalanceformated)
+      const userInfo = await RisingCoinUsdtEarn.totalIncomePool(); // Assuming `users` returns user details
+     const userInfo1 =  formatUnits(userInfo, 18)
+      console.log(userInfo1)
+      // setLevel(userInfo.level.toString());
+      // setEarned(userInfo.earned.toString()); // Assuming earned is returned as a field
     } catch (err) {
       setError("Error fetching user details: " + err.message);
     }
   };
 
 
-  async function Owner() {
-    if (!isConnected) throw Error('User disconnected')
-
-    const ethersProvider = new BrowserProvider(walletProvider)
-    const signer = await ethersProvider.getSigner()
-    // The Contract object
-    const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, signer)
-    const Owner= await RisingCoinUsdtEarn.owner()
-    setBalance(Owner)
-    
-  }
+  
 
 
   
@@ -123,9 +129,15 @@ const UserDashboard = () => {
             </span>
 
             
-            <Link className="text-red-500 " onClick={()=>disconnect()}>
-  disconnect
+            <Link 
+  className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 shadow-lg" 
+  style={{ position: "fixed", top: "50px", right: "20px", textDecoration: "none", textAlign: "center", borderRadius: "30px" }} 
+  onClick={() => disconnect()}
+>
+  Disconnect
 </Link>
+
+
 
 
           </div>
@@ -149,13 +161,7 @@ const UserDashboard = () => {
         </div>
 </div>}
 
-{ join &&<input
-  type="text"
-  id="referrer"
-  value={referrer}
-  onChange={(e) => setReferrer(e.target.value)}
-  placeholder="Enter referral address"
-/>}
+
 
 
 {isConnected && 

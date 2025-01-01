@@ -8,9 +8,10 @@ export default function ConnectButton() {
   const { open } = useAppKit()
 
   return (
-
+ 
     <div className="flex items-center justify-center h-screen">
-    <div className="w-full flex items-center justify-center pb-3">
+
+    <div className="w-full flex items-center justify-center ">
       <button
         onClick={() => open()}
         className="bg-[#319cdf] flex h-full w-[70%] rounded-full items-center justify-center py-[13px] px-4 relative space-x-1"

@@ -41,6 +41,25 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Received",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "referrer",
 						"type": "address"
 					},
@@ -84,6 +103,25 @@
 					}
 				],
 				"name": "RewardsDistributed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Sent",
 				"type": "event"
 			},
 			{
@@ -240,6 +278,24 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "_recipient",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "sendEther",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "totalIncomePool",
 				"outputs": [
@@ -329,6 +385,10 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -367,11 +427,11 @@
 			]
 		},
 		"contracts/RscUsdtEarn.sol": {
-			"keccak256": "0xf83fa8f81b00dc629fb2de7ee8dad5abf018dda9e2e851dda47c53f828baaa1b",
+			"keccak256": "0xcada09682cc9668b4da7f20b2911ab12e92d92887138eb8926359b8cf421ddff",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://874710fa12c84c273090cbe41ca3686326e295f49c7c80eeeed0ccb9da7eefcf",
-				"dweb:/ipfs/QmZcyVANfArKPJ4DifpXCbfJrE7Ep74xQU49apXVEGpNFN"
+				"bzz-raw://087cecb71c077ff76f3f88ec93e600c362b167d8226b09a109ae783fcdc26bfd",
+				"dweb:/ipfs/QmQFicKr3PkbjPushWWgA7uUh8F8aoxtKLWDayWjo9bHfU"
 			]
 		}
 	},

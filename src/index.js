@@ -30,30 +30,35 @@ import AlphaDogs from "./pages/AlphaDogs";
 
 import { createAppKit } from '@reown/appkit/react';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
-import { polygonAmoy } from '@reown/appkit/networks';
+import {bsc} from '@reown/appkit/networks';
 import UserDashboard from "./Components/UsdtEarn/UserDashboard";
 import BalanceChecker from "./pages/BalanceChecker";
 
 
-// Initialize AppKit
+// 1. Get projectId
+const projectId = 'c31091e9e72b74750760c0727a566acc'
+
+// 2. Set the networks
+const networks = [bsc,]
+
+// 3. Create a metadata object - optional
+const metadata = {
+  name: 'My Website',
+  description: 'My Website description',
+  url: 'https://mywebsite.com', // origin must match your domain & subdomain
+  icons: ['https://avatars.mywebsite.com/']
+}
+
+// 4. Create a AppKit instance
 createAppKit({
   adapters: [new EthersAdapter()],
-  networks: [polygonAmoy],
-  metadata: {
-    name: 'My Website',
-    description: 'My Website Description',
-    url: 'https://mywebsite.com',
-    icons: ['https://avatars.mywebsite.com/'],
-  },
-  projectId: '214f9c37ad0e68964fdc0d9372ee557c',
+  networks,
+  metadata,
+  projectId,
   features: {
-    email: false, // default to true
-    socials: [],
-    emailShowWallets: true, // default to true
-  },
-  allWallets: 'SHOW', // default to SHOW
-});
-
+    analytics: true // Optional - defaults to your Cloud configuration
+  }
+})
 
 
 
