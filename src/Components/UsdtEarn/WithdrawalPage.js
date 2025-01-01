@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { BrowserProvider, Contract } from "ethers";
-import { ContractAddress, ContractAbi } from "../../contractConfig";
+import { BrowserProvider, Contract, parseUnits } from "ethers";
+import { ContractAddress, ContractAbi,usdtabi,usdtaddress } from "../../contractConfig";
 
 const WithdrawalPage = ({ isConnected, address, walletProvider }) => {
   const [amount, setAmount] = useState("");
@@ -30,7 +30,13 @@ const WithdrawalPage = ({ isConnected, address, walletProvider }) => {
       const signer = await ethersProvider.getSigner();
       const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, signer);
 
-      const tx = await RisingCoinUsdtEarn.withdraw(withdrawAmount);
+  
+      // Convert 3 USDT to the smallest unit (assuming USDT uses 6 decimals)
+      const amountToApprove = parseUnits(withdrawAmount, 18); // 3 USDT in smallest unit
+  
+   
+  
+      const tx = await RisingCoinUsdtEarn.withdrawRewards(amountToApprove );
       await tx.wait();
 
       setSuccess("Withdrawal successful! Your funds are on the way.");

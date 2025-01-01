@@ -9,6 +9,7 @@ import ConnectButton from './ConnectButton';
 import { Link } from 'react-router-dom';
 import StartEarning from './StartEarning';
 import WithdrawalPage from './WithdrawalPage';
+import UpgradeLevel from './UpgradeLevel';
 
 
 
@@ -65,6 +66,7 @@ const UserDashboard = () => {
       console.log(userInfo.earned.toString())
       setLevel(userInfo.level.toString());
       setEarned(userInfo.earned.toString());
+      setReferredBy(userInfo.referrer.toString());
     } catch (err) {
       setError("Error fetching user details: " + err.message);
     }
@@ -78,7 +80,38 @@ const UserDashboard = () => {
 
   const copyToClipboard = () => {
     // eslint-disable-next-line
-    const reflink = `https://t.me/BulldogApp_Bot?start=r${id}\n\$BDOG tokens mining is live! Two is better than one!  Join my squad, and let\'s double the fun (and earnings 🤑)! $BDOG Power Tap! 🚀`;
+    const reflink = address
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(reflink)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 10000); // Reset the copied state after 2 seconds
+        })
+        .catch((err) => {
+          console.error("Failed to copy text: ", err);
+        });
+    } else {
+      // Fallback method
+      const textArea = document.createElement("textarea");
+      textArea.value = reflink;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000); // Reset the copied state after 2 seconds
+      } catch (err) {
+        console.error("Failed to copy", err);
+      }
+      document.body.removeChild(textArea);
+    }
+  };
+
+  const copyToClipboard2 = () => {
+    // eslint-disable-next-line
+    const reflink = referredBy
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard
@@ -162,8 +195,8 @@ const UserDashboard = () => {
 
 {isConnected && 
 <StartEarning isConnected address walletProvider={walletProvider}/>}
-
-
+{isConnected && 
+<UpgradeLevel isConnected address walletProvider={walletProvider} />}
       
 {isConnected && 
 
@@ -220,7 +253,7 @@ const UserDashboard = () => {
                 <span className="">Referred By</span>
               </button>
               <button
-                onClick={copyToClipboard}
+                onClick={copyToClipboard2}
                 className="w-[35%] flex space-x-2 text-primary font-medium text-[14px] barTitle bg-[#313439] h-[45px] rounded-[10px] px-4 justify-center items-center text-center"
               >
                 <span className="flex items-center">
