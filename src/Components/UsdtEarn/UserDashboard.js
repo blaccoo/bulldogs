@@ -58,17 +58,13 @@ const UserDashboard = () => {
 	  const UsdtContract = new Contract(usdtaddress, usdtabi, ethersProvider);
       // Fetch user data from the contract
 	
-	  const userbalance = await UsdtContract.balanceOf(walletAddress);
-	  const userbalanceformated =  formatUnits(userbalance , 18)
 
-   
-	  setBalance(userbalanceformated)
-	  console.log(userbalanceformated)
-      const userInfo = await RisingCoinUsdtEarn.totalIncomePool(); // Assuming `users` returns user details
-     const userInfo1 =  formatUnits(userInfo, 18)
-      console.log(userInfo1)
-      // setLevel(userInfo.level.toString());
-      // setEarned(userInfo.earned.toString()); // Assuming earned is returned as a field
+      const userInfo = await RisingCoinUsdtEarn.users(walletAddress); // Assuming `users` returns user details
+     
+      console.log(userInfo.level.toString())
+      console.log(userInfo.earned.toString())
+      setLevel(userInfo.level.toString());
+      setEarned(userInfo.earned.toString());
     } catch (err) {
       setError("Error fetching user details: " + err.message);
     }
@@ -150,7 +146,7 @@ const UserDashboard = () => {
 <div className="className='w-full flex items-center justify-center pb-3'">
 <div className="w-fit bg-cards px-4 py-2 text-[15px] font-semibold rounded-full flex items-center justify-center space-x-1">
           <img src="/bulllogo2.png" alt="sfdf" className="w-[14px]"/>
-          <span className="text-secondary">Balance</span> <span> {balance} </span>
+          <span className="text-secondary">Earned</span> <span> {earned} </span>
         </div>
 </div>}
 {isConnected && 
@@ -165,7 +161,7 @@ const UserDashboard = () => {
 
 
 {isConnected && 
-<StartEarning isConnected address walletProvider/>}
+<StartEarning isConnected address walletProvider={walletProvider}/>}
 
 
       

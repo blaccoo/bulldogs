@@ -11,7 +11,7 @@ import ErrorCom from "./Components/ErrorCom";
 import NotAdmin236 from "./pages/NotAdmin236";
 import { AuthContextProvider } from "./context/AuthContext";
 import Leaderboard from "./pages/Leaderboard";
-import DailyCheckIn from "./pages/Checkin";
+import DailyCheckIn from "./pages/Checkin"; 
 import CryptoFarming from "./pages/Farm";
 import Airdrop from "./pages/Airdrop";
 import Dashboard from "./pages/admin/Dashboard";

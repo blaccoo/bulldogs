@@ -26,7 +26,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
     try {
       setLoading(true);
       setError(null);
-  
+ 
       const ethersProvider = new BrowserProvider(walletProvider);
       const signer = await ethersProvider.getSigner();
   
@@ -109,6 +109,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
                 marginBottom: "10px",
                 border: "1px solid #ccc",
                 borderRadius: "5px",
+                color:"#000"
               }}
             />
                 
