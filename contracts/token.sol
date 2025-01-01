@@ -1,13 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
-// 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
-// 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC
-// 0x90F79bf6EB2c4f870365E785982E1f101E93b906
-// 0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65
-// 0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc
-
 // Interface of the ERC20 standard as defined in the EIP.
 interface IERC20 {
     function totalSupply() external view returns (uint256);
@@ -23,13 +16,13 @@ interface IERC20 {
  
 // Implementation of the ERC20 standard 
 contract MyERC20Token is IERC20 {
-    string public name = "USDT"; // Token name
-    string public symbol = "USDT";  // Token symbol
+    string public name = "KLPTAI"; // Token name
+    string public symbol = "KLPTAI";  // Token symbol
     uint8 public decimals = 18;    // Decimals (commonly 18 for ERC20 tokens)
     uint256 private _totalSupply;  // Total supply of tokens
 
     // Mapping from addresses to balances
-    mapping(address => uint256) private _balances;  
+    mapping(address => uint256) private _balances;
 
     // Mapping from owner to spender to allowed amount
     mapping(address => mapping(address => uint256)) private _allowances;

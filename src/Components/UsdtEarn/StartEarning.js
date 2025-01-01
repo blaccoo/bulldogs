@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { BrowserProvider, Contract } from "ethers";
-import { ContractAddress, ContractAbi } from "../../contractConfig";
-
+import { BrowserProvider, Contract, parseUnits } from "ethers";
+import { ContractAddress, ContractAbi,usdtabi,usdtaddress } from "../../contractConfig";
 
 
 const StartEarning = ({ isConnected, address, walletProvider }) => {
-  const [referrer, setReferrer] = useState("");
+  const [referrer, setReferrer] = useState("0xB43B5cDf89d42795C1d1a84e83fE46f488b14143");
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);
@@ -18,23 +17,34 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
       setError("Please connect your wallet first.");
       return;
     }
-
+  
     if (!referrerAddress) {
       setError("Please enter a valid referral address.");
       return;
     }
-
+  
     try {
       setLoading(true);
       setError(null);
-
+  
       const ethersProvider = new BrowserProvider(walletProvider);
       const signer = await ethersProvider.getSigner();
+  
+      // Instantiate contracts
       const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, signer);
-
-      const tx = await RisingCoinUsdtEarn.joinNetwork(referrer);
-      await tx.wait();
-
+      const UsdtContract = new Contract(usdtaddress, usdtabi, signer);
+  
+      // Convert 3 USDT to the smallest unit (assuming USDT uses 6 decimals)
+      const amountToApprove = parseUnits("3", 18); // 3 USDT in smallest unit
+  
+      // Approve the contract to spend 3 USDT
+      const approveTx = await UsdtContract.approve(ContractAddress, amountToApprove);
+      await approveTx.wait(); // Wait for the transaction to be mined
+  
+      // Call the joinNetwork function on the RisingCoinUsdtEarn contract
+      const tx = await RisingCoinUsdtEarn.joinNetwork(referrerAddress);
+      await tx.wait(); // Wait for the transaction to complete
+  
       setSuccess("Successfully joined the network! Start earning now.");
       setReferrer(""); // Reset the input field
       toggleModal(); // Close modal on success
@@ -44,6 +54,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div>
