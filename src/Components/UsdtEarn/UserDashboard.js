@@ -75,7 +75,10 @@ const UserDashboard = () => {
   };
 
 
-  
+  const truncateAddress = (address) => {
+    if (!address || address.length < 10) return address;
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };  
 
 
   
@@ -151,18 +154,18 @@ const UserDashboard = () => {
      {isConnected && 
      
     
-     <div className='w-full flex items-center justify-center pb-3 mt-5'>
+     <div className='w-full flex items-center justify-center pb-3 mt-3'>
 
 <div className="w-[74%] font-medium bg-cards px-4 py-[15px] text-primary text-[13px] space-x-1 rounded-full flex items-center justify-between ">
         
             <span className="" >
-              {address}
+              {truncateAddress(address)}
             </span>
 
             
             <Link 
   className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 shadow-lg" 
-  style={{ position: "fixed", top: "50px", right: "20px", textDecoration: "none", textAlign: "center", borderRadius: "30px" }} 
+  style={{ textDecoration: "none", textAlign: "center", borderRadius: "30px" }} 
   onClick={() => disconnect()}
 >
   Disconnect

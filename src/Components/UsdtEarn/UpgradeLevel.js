@@ -68,7 +68,7 @@ const UpgradeLevel = ({ isConnected, address, walletProvider }) => {
       const tx = await RisingCoinUsdtEarn.upgradeLevel(level);
       await tx.wait(); // Wait for the transaction to complete
 
-      setSuccess(`Successfully upgraded to Level ${level}!`);
+      setSuccess(`Successfully upgraded to Level ${level}!`); 
       // setSelectedLevel(null); // Reset the selected level
       toggleModal(); // Close modal on success
     } catch (err) {
