@@ -265,7 +265,7 @@ const UserDashboard = () => {
                   <FaLink size={18} className="" />
                 </span>
                 <span className="">
-                  {copied ? <span>Copied!</span> : <span>Copy</span>}
+                  {copied2 ? <span>Copied!</span> : <span>Copy</span>}
                 </span>
               </button>
             </div>

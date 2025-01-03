@@ -100,6 +100,7 @@ const WithdrawalPage = ({ isConnected, address, walletProvider }) => {
                 marginBottom: "10px",
                 border: "1px solid #ccc",
                 borderRadius: "5px",
+                color:"#000"
               }}
             />
 
