@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserProvider, Contract, parseUnits } from "ethers";
 import { ContractAddress, ContractAbi, usdtabi, usdtaddress } from "../../contractConfig";
 
@@ -9,9 +9,16 @@ const UpgradeLevel = ({ isConnected, address, walletProvider }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
 
+    useEffect(() => {
+     console.log(selectedLevel)
+    });
+
   const toggleModal = () => setModalOpen(!modalOpen);
   const levelToAmount = (level) => {
-    switch (level) {
+    console.log(level)
+    const upgradelevel = level.toString()
+    console.log(upgradelevel)
+    switch (upgradelevel) {
       case "2":
         return "30"; 
       case "3":
@@ -48,8 +55,10 @@ const UpgradeLevel = ({ isConnected, address, walletProvider }) => {
       const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, signer);
       
      const UsdtContract = new Contract(usdtaddress, usdtabi, signer);
-  
-     const amountToApprove = parseUnits(levelToAmount(level), 18);
+  console.log(level)
+     const amount = levelToAmount(level);
+     console.log(amount)
+     const amountToApprove = parseUnits(amount, 18);
   
       // Approve the contract to spend 3 USDT
       const approveTx = await UsdtContract.approve(ContractAddress, amountToApprove);
@@ -60,7 +69,7 @@ const UpgradeLevel = ({ isConnected, address, walletProvider }) => {
       await tx.wait(); // Wait for the transaction to complete
 
       setSuccess(`Successfully upgraded to Level ${level}!`);
-      setSelectedLevel(null); // Reset the selected level
+      // setSelectedLevel(null); // Reset the selected level
       toggleModal(); // Close modal on success
     } catch (err) {
       setError(err.message || "An error occurred while upgrading the level.");
