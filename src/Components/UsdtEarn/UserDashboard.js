@@ -29,6 +29,7 @@ const UserDashboard = () => {
   const [referralList, setReferralList] = useState([]);
   const [transactionHistory, setTransactionHistory] = useState([]);
   const [copied, setCopied] = useState(false);
+  const [copied2, setCopied2] = useState(false);
   const [error, setError] = useState(null);
   const { address, isConnected } = useAppKitAccount()
   const { walletProvider } = useAppKitProvider('eip155')
@@ -118,8 +119,8 @@ const UserDashboard = () => {
       navigator.clipboard
         .writeText(reflink)
         .then(() => {
-          setCopied(true);
-          setTimeout(() => setCopied(false), 10000); // Reset the copied state after 2 seconds
+          setCopied2(true);
+          setTimeout(() => setCopied2(false), 10000); // Reset the copied state after 2 seconds
         })
         .catch((err) => {
           console.error("Failed to copy text: ", err);
@@ -133,7 +134,7 @@ const UserDashboard = () => {
       try {
         document.execCommand("copy");
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000); // Reset the copied state after 2 seconds
+        setTimeout(() => setCopied2(false), 2000); // Reset the copied state after 2 seconds
       } catch (err) {
         console.error("Failed to copy", err);
       }

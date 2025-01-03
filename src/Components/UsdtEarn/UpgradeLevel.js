@@ -10,6 +10,21 @@ const UpgradeLevel = ({ isConnected, address, walletProvider }) => {
   const [error, setError] = useState(null);
 
   const toggleModal = () => setModalOpen(!modalOpen);
+  const levelToAmount = (level) => {
+    switch (level) {
+      case "2":
+        return "30"; 
+      case "3":
+        return "300"; 
+        case "4":
+          return "3000";
+          case "5":
+            return "30000";
+      default:
+        break; // Default amount
+    }
+  };
+
 
   const upgradeLevel = async (level) => {
     if (!isConnected || !address) {
@@ -32,7 +47,13 @@ const UpgradeLevel = ({ isConnected, address, walletProvider }) => {
       // Instantiate contracts
       const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, signer);
       
-
+     const UsdtContract = new Contract(usdtaddress, usdtabi, signer);
+  
+     const amountToApprove = parseUnits(levelToAmount(level), 18);
+  
+      // Approve the contract to spend 3 USDT
+      const approveTx = await UsdtContract.approve(ContractAddress, amountToApprove);
+      await approveTx.wait(); // Wait for the transaction to be mined
 
       // Call the upgradeLevel function on the RisingCoinUsdtEarn contract
       const tx = await RisingCoinUsdtEarn.upgradeLevel(level);
