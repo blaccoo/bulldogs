@@ -49,7 +49,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
       setReferrer(""); // Reset the input field
       toggleModal(); // Close modal on success
     } catch (err) {
-      setError(err.message || "An error occurred while joining the network.");
+      setError(err.reason || "An error occurred while joining the network.");
     } finally {
       setLoading(false);
     }

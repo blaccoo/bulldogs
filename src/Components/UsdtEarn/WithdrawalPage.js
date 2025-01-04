@@ -43,7 +43,8 @@ const WithdrawalPage = ({ isConnected, address, walletProvider }) => {
       setAmount(""); // Reset the input field
       toggleModal(); // Close modal on success
     } catch (err) {
-      setError(err.message || "An error occurred while processing your withdrawal.");
+      console.log(err.reason)
+      setError(err.reason || "An error occurred while processing your withdrawal.");
     } finally {
       setLoading(false);
     }

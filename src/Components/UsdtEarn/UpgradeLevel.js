@@ -72,7 +72,7 @@ const UpgradeLevel = ({ isConnected, address, walletProvider }) => {
       // setSelectedLevel(null); // Reset the selected level
       toggleModal(); // Close modal on success
     } catch (err) {
-      setError(err.message || "An error occurred while upgrading the level.");
+      setError(err.reason || "An error occurred while upgrading the level.");
     } finally {
       setLoading(false);
     }

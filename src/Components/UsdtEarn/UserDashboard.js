@@ -70,7 +70,7 @@ const UserDashboard = () => {
       setEarned(amountearned);
       setReferredBy(userInfo.referrer.toString());
     } catch (err) {
-      setError("Error fetching user details: " + err.message);
+      setError("Error fetching user details: " + err.reason);
     }
   };
 
