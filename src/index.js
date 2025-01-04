@@ -43,9 +43,9 @@ const networks = [bsc,]
 
 // 3. Create a metadata object - optional
 const metadata = {
-  name: 'My Website',
-  description: 'My Website description',
-  url: 'https://mywebsite.com', // origin must match your domain & subdomain
+  name: 'RSC',
+  description: 'DEFI APP',
+  url: 'bulldogs.vercel.app', // origin must match your domain & subdomain
   icons: ['https://avatars.mywebsite.com/']
 }
 
