@@ -100,7 +100,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
             <input
               type="text"
               id="referrer"
-              value={referrer}
+         
               onChange={(e) => setReferrer(e.target.value)}
               placeholder="Enter referral address"
               style={{
