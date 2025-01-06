@@ -140,8 +140,7 @@ useEffect(() => {
     
       // Cleanup event listeners on component unmount
       return () => {
-        document.documentElement.removeEventListener('touchstart', onTouchStart);
-        document.documentElement.removeEventListener('touchmove', onTouchMoveWithException);
+       
       };
     }
   }, [location.pathname, overflow]); 

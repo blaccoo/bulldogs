@@ -12,7 +12,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
 
   const toggleModal = () => setModalOpen(!modalOpen);
 
-  const joinNetwork = async (referrerAddress) => {
+  const joinNetwork = async (referrerAddress) => { 
     if (!isConnected || !address) {
       setError("Please connect your wallet first.");
       return;
@@ -95,23 +95,30 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
           >
-     
-            <label htmlFor="referrer">Referral Address:</label>
+    
+    
+     <form onSubmit={() => joinNetwork(referrer)}>
+     <label htmlFor="referrer">Referral Address:</label>
             <input
-              type="text"
-              id="referrer"
-         
-              onChange={(e) => setReferrer(e.target.value)}
-              placeholder="Enter referral address"
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginBottom: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                color:"#000"
-              }}
-            />
+  type="text"
+  id="referrer"
+  value={referrer} // Assuming `referrer` is a state variable
+  onChange={(e) => setReferrer(e.target.value)} // Updates state on input change
+  placeholder="Enter referral address"
+  style={{
+    width: "100%",
+    padding: "10px",
+    marginBottom: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    color: "#000",
+    cursor: "pointer"
+  }}
+/>
+
+     </form>
+
+   
                 
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
