@@ -118,11 +118,11 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
                   onClick={pasteFromClipboard}
                   style={{
                     marginLeft: "10px",
-                    padding: "10px",
-                    backgroundColor: "#4CAF50",
+                    padding: "5px",
+                    backgroundColor: "#000",
                     color: "white",
                     border: "none",
-                    borderRadius: "5px",
+                    borderRadius: "10px",
                     cursor: "pointer",
                   }}
                 >
