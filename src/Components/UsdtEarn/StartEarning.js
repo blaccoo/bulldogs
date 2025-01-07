@@ -17,7 +17,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
       setReferrer(text);
     } catch (err) {
       setError("Failed to read clipboard content.");
-    }
+    } 
   };
 
   const joinNetwork = async (referrerAddress) => {
@@ -74,7 +74,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
 
       {modalOpen && (
         <div
-          style={{
+          style={{ 
             position: "fixed",
             top: 0,
             left: 0,

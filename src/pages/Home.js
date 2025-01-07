@@ -19,21 +19,23 @@ const [hider, setHider] = useState(false);
 const [restrictAccess, setRestrictAccess] = useState(false)
 
 useEffect(() => {
-  const handleContextMenu = (event) => event.preventDefault();
+  // Remove the contextmenu prevention
   const handleKeyDown = (event) => {
-    if ((event.ctrlKey && (event.key === 'u' || event.key === 's')) || (event.ctrlKey && event.shiftKey && event.key === 'i')) {
+    if (
+      (event.ctrlKey && (event.key === 'u' || event.key === 's')) ||
+      (event.ctrlKey && event.shiftKey && event.key === 'i')
+    ) {
       event.preventDefault();
     }
   };
 
-  document.addEventListener('contextmenu', handleContextMenu);
   document.addEventListener('keydown', handleKeyDown);
 
   return () => {
-    document.removeEventListener('contextmenu', handleContextMenu);
     document.removeEventListener('keydown', handleKeyDown);
   };
 }, []);
+
 
     useEffect(() => {
         tele.ready();
