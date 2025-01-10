@@ -45,7 +45,7 @@ const networks = [bsc,]
 const metadata = {
   name: 'RSC',
   description: 'DEFI APP',
-  url: 'https://bulldogs.vercel.app', // origin must match your domain & subdomain
+  url: 'https://iter-link.com/usdtearn', // origin must match your domain & subdomain
   icons: ['https://avatars.mywebsite.com/']
 }
 

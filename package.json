@@ -4,9 +4,11 @@
   "private": true,
   "homepage": "https://bulldog.online/",
   "dependencies": {
+    "@coinbase/wallet-sdk": "^4.2.4",
+    "@firebase/app": "^0.10.17",
     "@firebase/firestore": "^4.6.3",
-    "@reown/appkit": "^1.5.3",
-    "@reown/appkit-adapter-ethers": "^1.5.3",
+    "@reown/appkit": "^1.6.4",
+    "@reown/appkit-adapter-ethers": "^1.6.4",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
@@ -17,7 +19,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "env": "^0.0.2",
-    "ethers": "^6.13.4",
+    "ethers": "^6.13.5",
     "express": "^4.19.2",
     "firebase": "^10.14.1",
     "framer-motion": "^11.2.10",
@@ -62,5 +64,4 @@
       "last 1 safari version"
     ]
   }
-
 }

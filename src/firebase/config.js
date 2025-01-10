@@ -1,6 +1,6 @@
 //* Import the functions you need from the SDKs you need
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth';
+import { initializeApp, getApps } from '@firebase/app';
+import { getAuth, setPersistence, browserLocalPersistence } from '@firebase/auth';
 
 //* Add the Web App's Firebase configuration
 
@@ -29,3 +29,4 @@ setPersistence(auth, browserLocalPersistence)
 
 export { auth };
 export default firebase_app;
+
