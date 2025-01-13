@@ -31,6 +31,7 @@ const UserDashboard = () => {
   const [copied, setCopied] = useState(false);
   const [copied2, setCopied2] = useState(false);
   const [error, setError] = useState(null);
+  const [activatedEarnings, setActivatedEarnings] = useState("false");
   const { address, isConnected } = useAppKitAccount()
   const { walletProvider } = useAppKitProvider('eip155')
   const { disconnect } = useDisconnect()
@@ -62,7 +63,8 @@ const UserDashboard = () => {
 	
 
       const userInfo = await RisingCoinUsdtEarn.users(walletAddress); // Assuming `users` returns user details
-
+    
+      setActivatedEarnings(userInfo.activatedEarnings.toString());
       console.log(userInfo.level.toString())
      const amountearned= formatUnits(userInfo.earned, "ether")
       setLevel(userInfo.level.toString());
@@ -178,15 +180,30 @@ const UserDashboard = () => {
 
     
 </div>} 
+{isConnected && (
+  <div className="flex items-center justify-center pb-3">
+    <p
+      className={`font-bold text-lg ${
+        activatedEarnings === "true" ? "text-green-500" : "text-red-500"
+      }`}
+    >
+      {activatedEarnings === "true" ? "Active Wallet" : "Wallet Not Active"}
+    </p>
+  </div>
+)}
 
    
 {isConnected && 
+
+
 <div className="className='w-full flex items-center justify-center pb-3'">
+
+
 <div className="w-fit bg-cards px-4 py-2 text-[15px] font-semibold rounded-full flex items-center justify-center space-x-1">
           <img src="/bulllogo2.png" alt="sfdf" className="w-[14px]"/>
           <span className="text-secondary">Earned</span> <span> {earned} USDT</span>
         </div>
-</div>}
+</div> }
 {isConnected && 
 <div className="className='w-full flex items-center justify-center pb-3'" style={{marginBlock:"1rem"}}>
 <div className="w-fit bg-cards px-4 py-2 text-[15px] font-semibold rounded-full flex items-center justify-center space-x-1">

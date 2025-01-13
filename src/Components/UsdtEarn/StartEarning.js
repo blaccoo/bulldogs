@@ -9,7 +9,7 @@ const StartEarning = ({ isConnected, address, walletProvider }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-
+  const [activatedEarnings, setActivatedEarnings] = useState(0);
   const toggleModal = () => setModalOpen(!modalOpen);
 
   const joinNetwork = async (referrerAddress) => { 
