@@ -7,7 +7,7 @@ contract RscUsdtEarn {
     address public owner;
     address public usdtTokenAddress; // Address of the USDT token
     uint256 public registrationFee = 3 * 10 ** 18; // $3 USDT with 18 decimals
-    uint256 public ownerShare = 4; // 3% for the owner wallet
+    uint256 public ownerShare = 4; // 4% for the owner wallet
     uint256 public lastRewardDistribution;
 
     struct User {
