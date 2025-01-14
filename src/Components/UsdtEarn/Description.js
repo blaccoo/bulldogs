@@ -65,7 +65,7 @@ export default function Description() {
           </p>
           <div className="text-center" style={{marginBottom:"3rem"}}>
             <Link
-              to="/start-earning"
+              to="/usdtearn"
               className="bg-[#319cdf] hover:bg-[#2b8bcf] text-white font-medium py-2 px-6 rounded-lg transition"
             >
               Start Earning
