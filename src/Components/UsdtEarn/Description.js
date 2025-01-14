@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 export default function Description() {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen" style={{ backgroundColor: '#000000'}}>
+      <div className="flex flex-col items-center  min-h-screen" style={{ backgroundColor: '#000000'}}>
         <div
           className="rounded-lg w-[90%] md:w-[70%] lg:w-[60%] max-h-[80vh] overflow-y-auto p-6"
           style={{ backgroundColor: '#1F2023' }}
