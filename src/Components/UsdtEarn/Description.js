@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function Description() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen" style={{ backgroundColor: '#000000'}}>
@@ -63,12 +64,12 @@ export default function Description() {
             Join now and take advantage of this unique opportunity to earn USDT effortlessly while contributing to a global decentralized staking platform.
           </p>
           <div className="text-center" style={{marginBottom:"3rem"}}>
-            <a
-              href="/start-earning"
+            <Link
+              to="/start-earning"
               className="bg-[#319cdf] hover:bg-[#2b8bcf] text-white font-medium py-2 px-6 rounded-lg transition"
             >
               Start Earning
-            </a>
+            </Link>
           </div>
         </div>
       </div>

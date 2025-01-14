@@ -20,10 +20,10 @@ export default function ConnectButton() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen space-y-6">
-      {/* Project Description */}
-      <div className=" p-4 rounded-lg shadow-md w-[90%] md:w-[70%] lg:w-[50%] text-center" style={{backgroundColor:"#1F2023"}}>
+    
+      <div className=" p-4 rounded-lg shadow-md w-[95%] md:w-[70%] lg:w-[50%] text-center" style={{backgroundColor:"#1F2023"}}>
         <h1 className="text-xl font-bold text-white-900 mb-2 text-secondary" >Earn USDT Daily for Life</h1>
-        <p className="text-base text-gray-800 mb-4" style={{color:'#fff'}}>
+        <p className="text-base text-gray-800 mb-4" style={{color:'#fff', lineHeight:"1.5"}}>
           RSC USDT Stake Earn is a revolutionary blockchain platform that allows users to earn USDT BEP20 daily 
           by staking as little as $3 and referring at least one user.
         </p>
