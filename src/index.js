@@ -32,6 +32,7 @@ import { createAppKit } from '@reown/appkit/react';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
 import {bsc} from '@reown/appkit/networks';
 import UserDashboard from "./Components/UsdtEarn/UserDashboard";
+import Description from "./Components/UsdtEarn/Description";
 import BalanceChecker from "./pages/BalanceChecker";
 
 
@@ -85,8 +86,8 @@ const router = createBrowserRouter([
         element: <Ref />,
       },
       {
-        path:"/test",
-        element: <BalanceChecker/>
+        path:"/full-description",
+        element: <Description/>
       },
       {
         path:"/airdrop",
