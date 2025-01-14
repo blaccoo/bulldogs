@@ -19,7 +19,7 @@ export default function ConnectButton() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen space-y-6">
+    <div className="flex flex-col items-center  h-screen space-y-6">
     
       <div className=" p-4 rounded-lg shadow-md w-[95%] md:w-[70%] lg:w-[50%] text-center" style={{backgroundColor:"#1F2023"}}>
         <h1 className="text-xl font-bold text-white-900 mb-2 text-secondary" >Earn USDT Daily for Life</h1>
@@ -36,8 +36,8 @@ export default function ConnectButton() {
       </div>
 
       {/* Card Section */}
-      <div className="bg-gray-100 p-4 rounded-lg shadow-md w-[80%] md:w-[60%] lg:w-[40%] text-center" style={{backgroundColor:"#1F2023"}}>
-        <p className="text-sm text-gray-700" style={{color:"#fff"}}>
+      <div className="bg-gray-100 p-4 rounded-lg shadow-md w-[80%] md:w-[60%] lg:w-[40%] text-center" >
+        <p className="text-sm text-gray-700">
           Unable to connect wallet? You can copy the <b>Earn</b> link and use your wallet browser for faster connection.
         </p>
         <button
