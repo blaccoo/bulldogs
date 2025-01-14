@@ -36,8 +36,8 @@ export default function ConnectButton() {
       </div>
 
       {/* Card Section */}
-      <div className="bg-gray-100 p-4 rounded-lg shadow-md w-[80%] md:w-[60%] lg:w-[40%] text-center">
-        <p className="text-sm text-gray-700">
+      <div className="bg-gray-100 p-4 rounded-lg shadow-md w-[80%] md:w-[60%] lg:w-[40%] text-center" style={{backgroundColor:"#1F2023"}}>
+        <p className="text-sm text-gray-700" style={{color:"#fff"}}>
           Unable to connect wallet? You can copy the <b>Earn</b> link and use your wallet browser for faster connection.
         </p>
         <button
