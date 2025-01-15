@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './UserDashboard.css';
 import { FaLink } from "react-icons/fa6";
 import { useDisconnect } from '@reown/appkit/react'
+import { ethers } from "ethers";
 import { ContractAddress, ContractAbi,usdtabi,usdtaddress } from "../../contractConfig";
 import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
 import { BrowserProvider, Contract, formatUnits } from 'ethers'
@@ -20,8 +21,8 @@ import UpgradeLevel from './UpgradeLevel';
 const UserDashboard = () => {
   const [userDetails, setUserDetails] = useState({});
   const [referralLink, setReferralLink] = useState('');
-  const [level, setLevel] = useState(null);
-  const [earned, setEarned] = useState(null);
+  const [level, setLevel] = useState("0");
+  const [earned, setEarned] = useState("0");
   const [join, setJoin] = useState(false);
   const [balance, setBalance] = useState(5);
   const [referredBy, setReferredBy] = useState('');
@@ -36,10 +37,27 @@ const UserDashboard = () => {
   const { walletProvider } = useAppKitProvider('eip155')
   const { disconnect } = useDisconnect()
 
+  const [copiedReferral, setCopiedReferral] = useState(null);
 
 
 
 
+  const copyReferralToClipboard = (referral) => {
+    navigator.clipboard
+      .writeText(referral)
+      .then(() => {
+        setCopiedReferral(referral);
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+          setCopiedReferral(null);
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error("Failed to copy referral: ", err);
+      });
+  };
+  
 
 
 
@@ -47,9 +65,26 @@ const UserDashboard = () => {
   useEffect(() => {
     if (isConnected) {
       fetchUserDetails(address);
-	  
+	    getReferrals(address); 
     }
   }, [isConnected]);
+
+
+  const getReferrals = async (walletAddress) => {
+    if (!walletAddress) return;
+  
+    try {
+      const ethersProvider = new BrowserProvider(walletProvider);
+      const RisingCoinUsdtEarn = new Contract(ContractAddress, ContractAbi, ethersProvider);
+      
+      // Assuming `getReferrals` is a function in the contract that returns an array of referred users
+      const referrals = await RisingCoinUsdtEarn.getReferrals(walletAddress); // Modify this as per the actual contract function
+  
+      setReferralList(referrals);  // Set the referrals in the state
+    } catch (err) {
+      setError("Error fetching referrals: " + err.reason);
+    }
+  };
  
   const fetchUserDetails = async (walletAddress) => {
     if (!walletAddress) return;
@@ -317,6 +352,31 @@ const UserDashboard = () => {
 
   </div>
 </div>}
+
+
+{isConnected && referralList.length > 0 && (
+  <div className="w-full pt-3 px-5">
+    <div className="w-full bg-[#17181A] rounded-[12px] p-4">
+      <h3 className="font-medium text-lg mb-3 text-white">Referral List</h3>
+      <ul className="space-y-2">
+        {referralList.map((referral, index) => (
+          <li
+            key={index}
+            className="flex justify-between items-center bg-[#313439] px-4 py-2 rounded-md"
+          >
+            <span className="text-primary">{truncateAddress(referral)}</span>
+            <button
+              onClick={() => copyReferralToClipboard(referral)}
+              className="text-white bg-green-500 hover:bg-green-600 px-3 py-1 rounded-md text-sm"
+            >
+              {copied && referral === copiedReferral ? "Copied!" : "Copy"}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)}
 
 
   </div>

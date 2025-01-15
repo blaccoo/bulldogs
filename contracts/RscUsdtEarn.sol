@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract RscUsdtEarn {
     address public owner;
+      address public devWallet;
     address public usdtTokenAddress; // Address of the USDT token
     uint256 public registrationFee = 3 * 10 ** 18; // $3 USDT with 18 decimals
     uint256 public ownerShare = 4; // 4% for the owner wallet
@@ -16,6 +17,7 @@ contract RscUsdtEarn {
         uint256 level;
         uint256 earned; // Total rewards earned
         bool activatedEarnings; // True if user has at least one referral
+        address[] referralsList; // Array to store all referrals
     }
 
     mapping(address => User) public users;
@@ -30,20 +32,22 @@ contract RscUsdtEarn {
     event LevelUpgraded(address indexed user, uint256 newLevel);
     event Received(address indexed sender, uint256 amount);
     event Sent(address indexed recipient, uint256 amount);
-
+ event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event DevWalletUpdated(address indexed previousDevWallet, address indexed newDevWallet);
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not authorized");
         _;
     }
 
-    constructor(address _usdtTokenAddress) {
+    constructor(address _usdtTokenAddress, address _devwalletAddress) {
         owner = msg.sender;
+        devWallet = _devwalletAddress;
         usdtTokenAddress = _usdtTokenAddress;
         lastRewardDistribution = block.timestamp;
     }
 
-  receive() external payable {
+    receive() external payable {
         emit Received(msg.sender, msg.value);
     }
 
@@ -54,7 +58,8 @@ contract RscUsdtEarn {
         // Process the referral
         if (_referrer != address(0) && _referrer != msg.sender) {
             users[_referrer].referrals++;
-            users[_referrer].activatedEarnings = true; // Activate lifetime earnings for the referrer
+           
+            users[_referrer].referralsList.push(msg.sender); // Add to the referrer's referrals list
             
             // Determine the referrer's new level
             uint256 newReferrerLevel = determineLevel(users[_referrer].referrals);
@@ -75,6 +80,7 @@ contract RscUsdtEarn {
         // Register the user
         users[msg.sender].referrer = _referrer;
         uint256 newLevel = determineLevel(users[msg.sender].referrals);
+         users[msg.sender].activatedEarnings = true; // Activate lifetime earnings for the referrer
         users[msg.sender].level = newLevel;
 
         totalIncomePool += (registrationFee * 50) / 100; // 50% of fee goes to the income pool
@@ -82,27 +88,54 @@ contract RscUsdtEarn {
         emit Registered(msg.sender, _referrer);
     }
 
-    function upgradeLevel(uint256 _desiredLevel) external {
-        require(_desiredLevel >= 1 && _desiredLevel <= 5, "Invalid level");
-        require(users[msg.sender].referrals >= 1, "Must invite at least one person to activate earnings");
-        require(users[msg.sender].level < _desiredLevel, "Already at this level or higher");
-
-        uint256 requiredPayment = calculateLevelCost(_desiredLevel);
-        require(IERC20(usdtTokenAddress).transferFrom(msg.sender, address(this), requiredPayment), "Payment failed");
-
-        // Remove the user from the old level
-        _removeUserFromLevel(msg.sender, users[msg.sender].level);
-
-        // Update the user's level
-        users[msg.sender].level = _desiredLevel;
-
-        // Add the user to the new level
-        levels[_desiredLevel].push(msg.sender);
-
-        totalIncomePool += requiredPayment;
-
-        emit LevelUpgraded(msg.sender, _desiredLevel);
+    function getReferrals(address _user) external view returns (address[] memory) {
+        return users[_user].referralsList;
     }
+
+    function getReferralsRequiredForLevel(uint256 _level) internal pure returns (uint256) {
+    if (_level == 1) return 1;
+    if (_level == 2) return 10;
+    if (_level == 3) return 100;
+    if (_level == 4) return 1000;
+    if (_level == 5) return 10000;
+    revert("Invalid level");
+}
+
+
+    // The rest of the contract remains unchanged.
+    // Additional functions like upgradeLevel, calculateLevelCost, payReferralReward, distributeRewards, etc., are still present.
+
+
+function upgradeLevel(uint256 _desiredLevel) external {
+    require(_desiredLevel >= 1 && _desiredLevel <= 5, "Invalid level");
+    require(users[msg.sender].level < _desiredLevel, "Already at this level or higher");
+
+    // Check if the user meets the referral requirements for the desired level
+
+
+    // Calculate the required payment for the level upgrade
+    uint256 requiredPayment = calculateLevelCost(_desiredLevel);
+    require(IERC20(usdtTokenAddress).transferFrom(msg.sender, address(this), requiredPayment), "Payment failed");
+
+
+    uint256 requiredReferrals = getReferralsRequiredForLevel(_desiredLevel);
+    users[msg.sender].referrals = requiredReferrals;
+
+    // Remove the user from the old level
+    _removeUserFromLevel(msg.sender, users[msg.sender].level);
+
+    // Update the user's level
+    users[msg.sender].level = _desiredLevel;
+
+    // Add the user to the new level
+    levels[_desiredLevel].push(msg.sender);
+
+    // Add the payment to the total income pool
+    totalIncomePool += requiredPayment;
+
+    emit LevelUpgraded(msg.sender, _desiredLevel);
+}
+
 
     function calculateLevelCost(uint256 _level) public pure returns (uint256) {
         if (_level == 2) return 30 * 10 ** 18; // $30
@@ -119,12 +152,12 @@ contract RscUsdtEarn {
     }
 
     function distributeRewards() external onlyOwner {
-        // require(block.timestamp >= lastRewardDistribution + 1 days, "Rewards can only be distributed every 24 hours");
+        require(block.timestamp >= lastRewardDistribution + 1 days, "Rewards can only be distributed every 24 hours");
         uint256 totalToDistribute = totalIncomePool;
         
         uint256 ownerCut = (totalToDistribute * ownerShare) / 100;
         totalIncomePool -= ownerCut;
-        require(IERC20(usdtTokenAddress).transfer(owner, ownerCut), "Owner payment failed");
+        require(IERC20(usdtTokenAddress).transfer(devWallet, ownerCut), "Owner payment failed");
        
         uint256 remainingPool = totalToDistribute - ownerCut;
 
@@ -204,4 +237,17 @@ contract RscUsdtEarn {
         require(success, "Ether transfer failed");
         emit Sent(_recipient, _amount);
     }
+
+ function changeOwner(address newOwner) external onlyOwner {
+        require(newOwner != address(0), "New owner is the zero address");
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
+
+    function updateDevWallet(address newDevWallet) external onlyOwner {
+        require(newDevWallet != address(0), "New dev wallet is the zero address");
+        emit DevWalletUpdated(devWallet, newDevWallet);
+        devWallet = newDevWallet;
+    }
+    
 }

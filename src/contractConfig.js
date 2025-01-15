@@ -1,5 +1,5 @@
 export const usdtaddress = "0x90791fc30706157443116e6e68195d5e7ebca576"
-export const ContractAddress = "0x921e7236fd182d5ff60dbea4a0ccbbbf3231318e"
+export const ContractAddress = "0xff8573a6807b3afe9a6d89562f9d6763ec1311e8"
 
 export const usdtabi =[
 	{
@@ -190,6 +190,19 @@ export const usdtabi =[
 
 export const ContractAbi =  [
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "changeOwner",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "distributeRewards",
 		"outputs": [],
@@ -215,10 +228,34 @@ export const ContractAbi =  [
 				"internalType": "address",
 				"name": "_usdtTokenAddress",
 				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_devwalletAddress",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousDevWallet",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newDevWallet",
+				"type": "address"
+			}
+		],
+		"name": "DevWalletUpdated",
+		"type": "event"
 	},
 	{
 		"anonymous": false,
@@ -237,6 +274,25 @@ export const ContractAbi =  [
 			}
 		],
 		"name": "LevelUpgraded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
 		"type": "event"
 	},
 	{
@@ -349,6 +405,19 @@ export const ContractAbi =  [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "newDevWallet",
+				"type": "address"
+			}
+		],
+		"name": "updateDevWallet",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_desiredLevel",
 				"type": "uint256"
@@ -412,6 +481,38 @@ export const ContractAbi =  [
 			}
 		],
 		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "devWallet",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "getReferrals",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -574,8 +675,7 @@ export const ContractAbi =  [
 		"stateMutability": "view",
 		"type": "function"
 	}
-  ]
-
+]
 
 
 

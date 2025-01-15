@@ -19,7 +19,7 @@ export default function ConnectButton() {
   };
 
   return (
-    <div className="flex flex-col items-center  h-screen space-y-6">
+    <div className="flex flex-col items-center  h-screen space-y-6" style={{paddingBottom:"1rem"}}>
     
       <div className=" p-4 rounded-lg shadow-md w-[95%] md:w-[70%] lg:w-[50%] text-center" style={{backgroundColor:"#1F2023"}}>
         <h1 className="text-xl font-bold text-white-900 mb-2 text-secondary" >Earn USDT Daily for Life</h1>
