@@ -32,7 +32,7 @@ contract RscUsdtEarn {
     event LevelUpgraded(address indexed user, uint256 newLevel);
     event Received(address indexed sender, uint256 amount);
     event Sent(address indexed recipient, uint256 amount);
- event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     event DevWalletUpdated(address indexed previousDevWallet, address indexed newDevWallet);
 
     modifier onlyOwner() {

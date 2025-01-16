@@ -19,6 +19,8 @@ import UpgradeLevel from './UpgradeLevel';
 
 
 const UserDashboard = () => {
+  const [nextDistribution, setNextDistribution] = useState(null);
+  const [countdown, setCountdown] = useState('');
   const [userDetails, setUserDetails] = useState({});
   const [referralLink, setReferralLink] = useState('');
   const [level, setLevel] = useState("0");
@@ -31,6 +33,7 @@ const UserDashboard = () => {
   const [transactionHistory, setTransactionHistory] = useState([]);
   const [copied, setCopied] = useState(false);
   const [copied2, setCopied2] = useState(false);
+  const [copied3, setCopied3] = useState(false);
   const [error, setError] = useState(null);
   const [activatedEarnings, setActivatedEarnings] = useState("false");
   const { address, isConnected } = useAppKitAccount()
@@ -47,9 +50,9 @@ const UserDashboard = () => {
       .writeText(referral)
       .then(() => {
         setCopiedReferral(referral);
-        setCopied(true);
+        setCopied3(true);
         setTimeout(() => {
-          setCopied(false);
+          setCopied3(false);
           setCopiedReferral(null);
         }, 2000);
       })
@@ -66,8 +69,64 @@ const UserDashboard = () => {
     if (isConnected) {
       fetchUserDetails(address);
 	    getReferrals(address); 
+      fetchLastRewardDistribution();
     }
   }, [isConnected]);
+
+  const fetchLastRewardDistribution = async () => {
+    if (!isConnected || !address) return;
+
+    try {
+      const ethersProvider = new BrowserProvider(walletProvider);
+      const contract = new Contract(ContractAddress, ContractAbi, ethersProvider);
+
+      // Fetch last reward distribution timestamp from the contract
+      const lastRewardTimestamp = await contract.lastRewardDistribution();
+            console.log(lastRewardTimestamp)
+      // Assuming the reward is distributed every 24 hours (86400 seconds)
+      const nextTimestamp = Number(lastRewardTimestamp) + 86400;
+      setNextDistribution(nextTimestamp);
+
+      // Start the countdown
+      startCountdown(nextTimestamp);
+    } catch (error) {
+      console.error("Error fetching last reward distribution: ", error.reason);
+    }
+  };
+
+  const startCountdown = (targetTimestamp) => {
+    const updateCountdown = () => {
+      const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+      const timeRemaining = targetTimestamp - currentTime;
+
+      if (timeRemaining <= 0) {
+        setCountdown("Distribution is happening now!");
+        clearInterval(countdownTimer);
+        return;
+      }
+
+      const hours = Math.floor(timeRemaining / 3600);
+      const minutes = Math.floor((timeRemaining % 3600) / 60);
+      const seconds = timeRemaining % 60;
+
+      setCountdown(
+        `${hours.toString().padStart(2, '0')}h : ${minutes
+          .toString()
+          .padStart(2, '0')}m : ${seconds.toString().padStart(2, '0')}s`
+      );
+    };
+
+    // Start the interval to update the countdown every second
+    const countdownTimer = setInterval(updateCountdown, 1000);
+
+    // Update immediately so there's no delay before the first update
+    updateCountdown();
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(countdownTimer);
+  };
+
+    
 
 
   const getReferrals = async (walletAddress) => {
@@ -79,7 +138,7 @@ const UserDashboard = () => {
       
       // Assuming `getReferrals` is a function in the contract that returns an array of referred users
       const referrals = await RisingCoinUsdtEarn.getReferrals(walletAddress); // Modify this as per the actual contract function
-  
+  console.log(referrals[0])
       setReferralList(referrals);  // Set the referrals in the state
     } catch (err) {
       setError("Error fetching referrals: " + err.reason);
@@ -184,7 +243,7 @@ const UserDashboard = () => {
 
 
   return (
-    <div style={{marginBlock: ""}}>
+    <div style={{marginBottom: "6rem"}}>
 
      {!isConnected && <ConnectButton/>} 
 
@@ -254,7 +313,18 @@ const UserDashboard = () => {
 <StartEarning isConnected address walletProvider={walletProvider}/>}
 {isConnected && 
 <UpgradeLevel isConnected address walletProvider={walletProvider} />}
-      
+{ isConnected && 
+ <div className="flex flex-col items-center justify-center">
+ <h3 className="text-xl font-bold">Next Reward Distribution</h3>
+ {countdown ? (
+   <p className="countdown text-lg">{countdown}</p>
+ ) : (
+   <p>Fetching the next distribution time...</p>
+ )}
+</div>
+
+}
+    
 {isConnected && 
 
 <WithdrawalPage isConnected={isConnected} address={address} walletProvider={walletProvider} />}
@@ -369,7 +439,7 @@ const UserDashboard = () => {
               onClick={() => copyReferralToClipboard(referral)}
               className="text-white bg-green-500 hover:bg-green-600 px-3 py-1 rounded-md text-sm"
             >
-              {copied && referral === copiedReferral ? "Copied!" : "Copy"}
+              {copied3 && referral === copiedReferral ? "Copied!" : "Copy"}
             </button>
           </li>
         ))}
